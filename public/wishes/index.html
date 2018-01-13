@@ -1,0 +1,108 @@
+<style>
+</style>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/custom.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+</head>
+<body class="main-bg">
+	<div id="clouds">
+		<div class="cloud1"></div>
+		<div class="cloud2"></div>
+		<div class="cloud3"></div>
+	</div>
+	<div id="clouds2">
+		<div class="cloud1"></div>
+		<div class="cloud2"></div>
+		<div class="cloud3"></div>
+	</div>
+	<!-- 	<div class="col-xs-3"></div> -->
+	<div class="col-xs-12 main">
+		<div class="col-xs-12 content well">
+			<center>
+				<h3>Happy pongal</h3>
+				<h4 class="wish">
+					Wishes from <br> <span class="text-uppercase" id="fromName"></span>
+				</h4>
+				<hr>
+			</center>
+			<button onclick="getNewName()" class="btn btn-link">Create
+				your own</button>
+			<div class="pull-right" id="share"></div>
+			<center>
+				<small>Created by #Muthupandian</small> <br>
+			</center>
+		</div>
+	</div>
+	<!-- 	<div class="col-xs-3"></div> -->
+</body>
+<script>
+	var host = "";
+	var urlPrefix = ""
+
+	host = ($(location).attr('hostname'))
+	urlPrefix = "/wishes/"
+	if (host == "localhost") {
+		urlPrefix = "/muthupandian/public/wishes/";
+	}
+
+	var params = {};
+
+	if (location.search) {
+		var parts = location.search.substring(1).split('&');
+
+		for (var i = 0; i < parts.length; i++) {
+			var nv = parts[i].split('=');
+			if (!nv[0])
+				continue;
+			params[nv[0]] = nv[1] || true;
+		}
+	}
+
+	// Now you can get the parameters you want like so:
+	var abc = params.from;
+	abc = decodeURIComponent(abc).replace("--", " ")
+	abc=abc.toUpperCase();
+	document.getElementById('fromName').innerHTML = abc;
+	shareURL = host + urlPrefix + "?from=" + abc.replace(" ", "--");
+	document.getElementById("share").innerHTML = "<a  data-action='share/whatsapp/share' href='whatsapp://send?text="
+			+ abc + " wishing you. " + shareURL + "'>Share this</a>"
+</script>
+<script src="js/snow.js"></script>
+<script>
+	$(document).ready(function() {
+
+		$.fn.snow({
+			minSize : 5,
+			maxSize : 50,
+			newOn : 100,
+			flakeColor : '#0099FF'
+		});
+	});
+
+	function getNewName() {
+		host = ($(location).attr('hostname'))
+		urlPrefix = "/wishes/"
+		if (host == "localhost" || host == "192.168.0.101") {
+			urlPrefix = "/muthupandian/public/wishes/";
+		}
+		var con = prompt("Your name please");
+		window.location.replace("http://" + $(location).attr('hostname')
+				+ urlPrefix + "?from=" + con);
+
+	}
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-60832787-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-60832787-1');
+</script>
